@@ -1,8 +1,13 @@
 import discord
 import random
+import asyncio
+import os
+from dotenv import load_dotenv
 from discord.ext import commands, tasks
 
-TOKEN = "MTUyNjI3Mjc0OTU1MzU4MjIzMg.GU9IH0.Es7gXbcIypOAmUHYvtvriA99BsUFlVKtVUzzH8"
+load_dotenv()
+
+TOKEN = os.getenv("TOKEN")
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -71,8 +76,8 @@ balls = {
         "chance": 70
     },
 
-    "Romanoyes German Empire": {
-        "image": "images/Romanoyes_German_Empire.png",
+    "Romanovyes German Empire": {
+        "image": "images/Romanovyes_German_Empire.png",
         "chance": 5
     },
 
@@ -132,25 +137,19 @@ async def automatic_spawn():
 
     if channel is None:
         return
-    
-    ball = random.choices(
-    list(balls.keys()),
-    weights=[balls[x]["chance"] for x in balls],
-    k=1
-)[0]
 
+    ball = random.choices(
+        list(balls.keys()),
+        weights=[balls[x]["chance"] for x in balls],
+        k=1
+    )[0]
 
     print(f"Spawned: {ball}")
+
     current_spawn = ball
 
-    # get image path for the spawned ball
-    image_path = balls[ball]["image"]
-    file = discord.File(image_path)
-
     await channel.send(
-        "🌍 A wild Countryball appeared!\n"
-        "Use `!catch <country>` to catch it!",
-        file=file
+        f"🌍 A wild **{ball}** appeared!\nUse `!catch <country>` to catch it!"
     )
 
 bot.run(TOKEN)
