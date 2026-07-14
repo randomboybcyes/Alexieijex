@@ -1,5 +1,2 @@
-[build]
-builder = "RAILPACK"
-
 [deploy]
 startCommand = "python alexieijex.py" 
